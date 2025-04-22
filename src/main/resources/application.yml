@@ -1,0 +1,31 @@
+quarkus:
+  profile:
+    parent: env
+
+  rest-client:
+    auth-service:
+      url: ${AUTH_SERVICE_URL}
+      scope: jakarta.inject.Singleton
+      connect-timeout: 5000
+      read-timeout: 5000
+
+  http:
+    port: 8080
+
+kafka:
+  bootstrap:
+    servers: ${LOCAL_BROKER}
+
+logging:
+  level:
+    org.apache.kafka: INFO
+    org.springframework.kafka: INFO
+
+mp:
+  messaging:
+    outgoing:
+      created:
+        connector: smallrye-kafka
+        topic: "created"
+        value:
+          serializer: org.apache.kafka.common.serialization.StringSerializer
