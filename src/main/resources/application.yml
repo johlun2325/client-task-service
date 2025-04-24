@@ -10,7 +10,7 @@ quarkus:
       read-timeout: 5000
 
   http:
-    port: 8080
+    port: ${PORT}
 
 kafka:
   bootstrap:
@@ -26,6 +26,6 @@ mp:
     outgoing:
       created:
         connector: smallrye-kafka
-        topic: "created"
+        topic: "item-created"
         value:
           serializer: org.apache.kafka.common.serialization.StringSerializer
