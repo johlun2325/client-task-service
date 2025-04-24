@@ -24,7 +24,7 @@ public class TaskResource
     {
     }
 
-    //TODO: this is a test endpoint for communication and should be modified
+    // TODO: this is a test endpoint for communication and should be modified
     @GET
     @Operation(summary = "")
     public List<Task> getAllTasks()
@@ -34,7 +34,7 @@ public class TaskResource
         return List.of(new Task("my title"));
     }
 
-    //TODO: this is a test endpoint for communication and should be modified
+    // TODO: this is a test endpoint for communication and should be modified
     @POST
     @Operation(summary = "Create a new task")
     public Response createTask(Task task)
@@ -46,24 +46,17 @@ public class TaskResource
             Map<String, String> response = authService.validate("validate");
             System.out.println("Response from auth service: " + response.get("message"));
 
-            Map<String, Object> result = Map.of(
-                    "task", task,
-                    "authResponse", response
-            );
+            Map<String, Object> result = Map.of("task", task, "authResponse", response);
 
-            return Response.status(Response.Status.CREATED)
-                    .entity(result)
-                    .build();
+            return Response.status(Response.Status.CREATED).entity(result).build();
 
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             System.err.println("Error calling auth service: " + e.getMessage());
             e.printStackTrace();
 
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity(Map.of("error", "Failed to communicate with auth service"))
-                    .build();
+                    .entity(Map.of("error", "Failed to communicate with auth service")).build();
         }
     }
 }

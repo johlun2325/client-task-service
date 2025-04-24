@@ -11,15 +11,14 @@ import java.util.Set;
 /**
  * To use it via injection.
  *
- * {@code
- *     @Inject
- *     @RestClient
- *     MyRemoteService myRemoteService;
+ * {@code @Inject
  *
- *     public void doSomething() {
- *         Set<MyRemoteService.Extension> restClientExtensions = myRemoteService.getExtensionsById("io.quarkus:quarkus-hibernate-validator");
- *     }
- * }
+ * @RestClient MyRemoteService myRemoteService;
+ *
+ * public void doSomething() { Set<MyRemoteService.Extension>
+ * restClientExtensions =
+ * myRemoteService.getExtensionsById("io.quarkus:quarkus-hibernate-validator");
+ * } }
  */
 @RegisterRestClient(baseUri = "https://stage.code.quarkus.io/api")
 public interface MyRemoteService
@@ -29,7 +28,8 @@ public interface MyRemoteService
     @Path("/extensions")
     Set<Extension> getExtensionsById(@QueryParam("id") String id);
 
-    class Extension {
+    class Extension
+    {
         public String id;
         public String name;
         public String shortName;
