@@ -9,7 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import task.service.auth.AuthServiceClient;
 
-@Path("/api/auth")
+import java.util.Map;
+
+@Path("/auth")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class AuthResource
@@ -20,7 +22,7 @@ public class AuthResource
     AuthServiceClient authServiceClient;
 
     private final static Logger LOGGER = LoggerFactory.getLogger(AuthResource.class);
-    @POST
+    @GET
     @Path("/login")
     public Response login(final String message)
     {
@@ -31,6 +33,33 @@ public class AuthResource
         var token = authServiceClient.login(message);
 
         return Response.ok(token).build();
+    }
+
+    @GET
+    @Path("/token")
+    public Response handleTokenResponse(@QueryParam("response") String token)
+    {
+        LOGGER.info("Received token from auth service: {}",
+                token != null ? token.substring(0, Math.min(10, token.length())) + "..." : "null");
+
+        if (token == null || token.isEmpty())
+        {
+            LOGGER.error("No token received from auth service");
+            return Response.status(Response.Status.BAD_REQUEST).entity(Map.of("error", "No ID token received")).build();
+        }
+
+        try
+        {
+            // Send simple confirmation to browser
+            return Response.ok(Map.of("status", "authenticated", "message", "Successfully authenticated with Google",
+                    "token_received", true)).build();
+
+        } catch (Exception e)
+        {
+            LOGGER.error("Error processing token", e);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(Map.of("error", "Failed to process authentication token")).build();
+        }
     }
 
     @GET
