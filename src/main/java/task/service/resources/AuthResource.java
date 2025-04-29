@@ -1,29 +1,36 @@
 package task.service.resources;
 
+import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.UUID;
+import task.service.auth.AuthServiceClient;
 
 @Path("/api/auth")
-@Produces(MediaType.TEXT_PLAIN)
 @Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class AuthResource
 {
+
+    @Inject
+    @RestClient
+    AuthServiceClient authServiceClient;
 
     private final static Logger LOGGER = LoggerFactory.getLogger(AuthResource.class);
     @POST
     @Path("/login")
-    public Response login()
+    public Response login(final String message)
     {
         // Todo: implement actual login flow
-        var mockToken = "mock-jwt-" + UUID.randomUUID();
-        LOGGER.info("Generated mock token: " + mockToken);
 
-        return Response.ok(mockToken).build();
+        LOGGER.info("Message received: " + message);
+
+        var token = authServiceClient.login(message);
+
+        return Response.ok(token).build();
     }
 
     @GET

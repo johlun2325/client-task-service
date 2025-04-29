@@ -17,4 +17,10 @@ public interface AuthServiceClient
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     Map<String, String> validate(String message);
+
+    @POST
+    @Path("/auth/login")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    String login(String message);
 }
