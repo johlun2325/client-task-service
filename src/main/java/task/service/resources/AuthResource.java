@@ -4,88 +4,57 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import task.service.auth.AuthServiceClient;
-
-import java.util.Map;
+import task.service.services.GoogleAuthService;
 
 @Path("/auth")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class AuthResource
+public final class AuthResource
 {
+    private final static Logger LOGGER = LoggerFactory.getLogger(AuthResource.class);
 
     @Inject
-    @RestClient
-    AuthServiceClient authServiceClient;
+    GoogleAuthService authService;
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(AuthResource.class);
     @GET
     @Path("/login")
-    public Response login(final String message)
+    public Response login(@QueryParam("provider") final String provider)
     {
-        // Todo: implement actual login flow
+        LOGGER.debug("Login request received: " + provider);
 
-        LOGGER.info("Message received: " + message);
-
-        var token = authServiceClient.login(message);
-
-        return Response.ok(token).build();
+        return authService.processLogin(provider);
     }
 
     @GET
     @Path("/token")
-    public Response handleTokenResponse(@QueryParam("response") String token)
+    public Response handleTokenResponse(@QueryParam("response") final String token)
     {
-        LOGGER.info("Received token from auth service: {}",
-                token != null ? token.substring(0, Math.min(10, token.length())) + "..." : "null");
+        LOGGER.debug("Received token from clients service: {}",
+                token != null ? token.substring(0, token.length() / 10) : "null");
 
-        if (token == null || token.isEmpty())
-        {
-            LOGGER.error("No token received from auth service");
-            return Response.status(Response.Status.BAD_REQUEST).entity(Map.of("error", "No ID token received")).build();
-        }
-
-        try
-        {
-            // Send simple confirmation to browser
-            return Response.ok(Map.of("status", "authenticated", "message", "Successfully authenticated with Google",
-                    "token_received", true)).build();
-
-        } catch (Exception e)
-        {
-            LOGGER.error("Error processing token", e);
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity(Map.of("error", "Failed to process authentication token")).build();
-        }
+        return authService.handleTokenResponse(token);
     }
 
     @GET
     @Path("/validate")
-    public Response validateToken(@HeaderParam("Authorization") final String authHeader)
+    public Response validateToken(@HeaderParam("Authorization") final String token)
     {
-        LOGGER.info("Token validation requested: " + authHeader);
+        LOGGER.debug("Token validation requested: {}",
+                token != null ? token.substring(0, token.length() / 10) : "null");
 
-        if (authHeader != null && authHeader.startsWith("Bearer mock-jwt-"))
-        {
-            LOGGER.info("Token validation successful");
-
-            return Response.ok().build();
-        }
-        LOGGER.info("Token validation failed");
-
-        return Response.status(Response.Status.UNAUTHORIZED).build();
+        return authService.validateToken(token);
     }
 
     @POST
     @Path("/logout")
-    public Response logout(@HeaderParam("Authorization") final String authHeader)
+    public Response logout(@HeaderParam("Authorization") final String token)
     {
-        // Todo: invalidate jwt token
-        LOGGER.info("Logout requested with token: " + authHeader);
-        return Response.ok().build();
+        LOGGER.debug("Logout requested with token: {}",
+                token != null ? token.substring(0, token.length() / 10) : "null");
+
+        return authService.processLogout(token);
     }
 
     @OPTIONS

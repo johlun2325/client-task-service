@@ -1,10 +1,15 @@
 quarkus:
   profile:
     parent: env
+  log:
+    level: INFO
+    category:
+      "task.service":
+        level: DEBUG
 
   rest-client:
-    auth-service:
-      url: ${AUTH_SERVICE_URL}
+    auth-client:
+      url: ${AUTH_CLIENT_URL}
       scope: jakarta.inject.Singleton
       connect-timeout: 5000
       read-timeout: 5000

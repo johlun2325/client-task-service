@@ -6,7 +6,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
-import task.service.auth.AuthServiceClient;
+import task.service.clients.AuthClient;
 import task.service.model.Task;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public class TaskResource
 {
     @Inject
     @RestClient
-    AuthServiceClient authService;
+    AuthClient authService;
 
     public TaskResource()
     {
@@ -44,7 +44,7 @@ public class TaskResource
         try
         {
             Map<String, String> response = authService.validate("validate");
-            System.out.println("Response from auth service: " + response.get("message"));
+            System.out.println("Response from clients service: " + response.get("message"));
 
             Map<String, Object> result = Map.of("task", task, "authResponse", response);
 
@@ -52,11 +52,11 @@ public class TaskResource
 
         } catch (Exception e)
         {
-            System.err.println("Error calling auth service: " + e.getMessage());
+            System.err.println("Error calling clients service: " + e.getMessage());
             e.printStackTrace();
 
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity(Map.of("error", "Failed to communicate with auth service")).build();
+                    .entity(Map.of("error", "Failed to communicate with clients service")).build();
         }
     }
 }

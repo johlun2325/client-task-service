@@ -1,4 +1,4 @@
-package task.service.auth;
+package task.service.clients;
 
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -6,8 +6,8 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import java.util.Map;
 
-@RegisterRestClient(configKey = "auth-service")
-public interface AuthServiceClient
+@RegisterRestClient(configKey = "auth-client")
+public interface AuthClient
 {
     @POST
     @Path("/auth/validate")
@@ -19,5 +19,5 @@ public interface AuthServiceClient
     @Path("/auth/google/login")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    String login(String message);
+    Map<String, String> login(@QueryParam("provider") final String provider);
 }
