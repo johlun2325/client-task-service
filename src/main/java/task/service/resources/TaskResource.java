@@ -39,24 +39,6 @@ public class TaskResource
     @Operation(summary = "Create a new task")
     public Response createTask(Task task)
     {
-        System.out.println("Client service received task: " + task.getTitle());
-
-        try
-        {
-            Map<String, String> response = authService.validate("validate");
-            System.out.println("Response from clients service: " + response.get("message"));
-
-            Map<String, Object> result = Map.of("task", task, "authResponse", response);
-
-            return Response.status(Response.Status.CREATED).entity(result).build();
-
-        } catch (Exception e)
-        {
-            System.err.println("Error calling clients service: " + e.getMessage());
-            e.printStackTrace();
-
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity(Map.of("error", "Failed to communicate with clients service")).build();
-        }
+        return Response.ok().build();
     }
 }

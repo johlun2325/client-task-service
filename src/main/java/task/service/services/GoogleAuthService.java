@@ -73,16 +73,18 @@ public class GoogleAuthService
         }
     }
 
-    public Response validateToken(final String token)
+    public Response validate(final String token)
     {
-        if (token != null && token.startsWith("Bearer ey"))
+        try (var response = authServiceClient.validateAuth(token))
         {
-            LOGGER.debug("Token validation successful");
 
-            return Response.ok().build();
+            if (response.getStatus() == Response.Status.OK.getStatusCode())
+            {
+                LOGGER.debug("Token validation successful");
+                return Response.ok().build();
+            }
         }
         LOGGER.debug("Token validation failed");
-
         return Response.status(Response.Status.UNAUTHORIZED).build();
     }
 

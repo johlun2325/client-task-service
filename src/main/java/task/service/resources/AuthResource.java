@@ -29,7 +29,7 @@ public final class AuthResource
 
     @GET
     @Path("/token")
-    public Response handleTokenResponse(@QueryParam("response") final String token)
+    public Response handleTokenResponse(@QueryParam("token") final String token)
     {
         LOGGER.debug("Received token from clients service: {}",
                 token != null ? token.substring(0, token.length() / 10) : "null");
@@ -44,7 +44,7 @@ public final class AuthResource
         LOGGER.debug("Token validation requested: {}",
                 token != null ? token.substring(0, token.length() / 10) : "null");
 
-        return authService.validateToken(token);
+        return authService.validate(token);
     }
 
     @POST
