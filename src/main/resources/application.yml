@@ -42,3 +42,6 @@ mp:
         topic: "item-created"
         value:
           serializer: org.apache.kafka.common.serialization.StringSerializer
+
+url:
+  redirect-url: ${CLIENT_REDIRECT_URL}

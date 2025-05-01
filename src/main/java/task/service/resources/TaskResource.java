@@ -10,11 +10,10 @@ import task.service.clients.AuthClient;
 import task.service.model.Task;
 
 import java.util.List;
-import java.util.Map;
 
 @Path("/tasks")
 @Produces(MediaType.APPLICATION_JSON)
-public class TaskResource
+public final class TaskResource
 {
     @Inject
     @RestClient

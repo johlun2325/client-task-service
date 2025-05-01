@@ -4,6 +4,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriBuilder;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,10 +13,13 @@ import task.service.clients.AuthClient;
 import java.util.Map;
 
 @ApplicationScoped
-public class GoogleAuthService
+public final class GoogleAuthService
 {
     private final static Logger LOGGER = LoggerFactory.getLogger(GoogleAuthService.class);
-    private static final String REDIRECT_URL = "http://localhost:5173";
+
+    @Inject
+    @ConfigProperty(name = "url.redirect-url")
+    String CLIENT_REDIRECT_URL;
 
     @Inject
     @RestClient
@@ -48,7 +52,7 @@ public class GoogleAuthService
         {
             LOGGER.error("No token received from clients service");
 
-            var errorUri = UriBuilder.fromUri(REDIRECT_URL)
+            var errorUri = UriBuilder.fromUri(CLIENT_REDIRECT_URL)
                     .queryParam("error", "Authentication failed: No token received").build();
 
             return Response.seeOther(errorUri).build();
@@ -58,7 +62,8 @@ public class GoogleAuthService
         {
             LOGGER.debug("Authentication successful, redirecting to frontend");
 
-            var redirectUri = UriBuilder.fromUri(REDIRECT_URL + "/auth/callback").queryParam("token", token).build();
+            var redirectUri = UriBuilder.fromUri(CLIENT_REDIRECT_URL + "/auth/callback").queryParam("token", token)
+                    .build();
 
             return Response.seeOther(redirectUri).build();
 
@@ -66,7 +71,7 @@ public class GoogleAuthService
         {
             LOGGER.error("Error processing token", e);
 
-            var errorRedirectUri = UriBuilder.fromUri(REDIRECT_URL)
+            var errorRedirectUri = UriBuilder.fromUri(CLIENT_REDIRECT_URL)
                     .queryParam("error", "System error during authentication").build();
 
             return Response.seeOther(errorRedirectUri).build();
