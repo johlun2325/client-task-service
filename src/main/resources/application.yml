@@ -13,6 +13,16 @@ quarkus:
       scope: jakarta.inject.Singleton
       connect-timeout: 5000
       read-timeout: 5000
+    task-client:
+      url: ${TASK_CLIENT_URL}
+      scope: jakarta.inject.Singleton
+      connect-timeout: 5000
+      read-timeout: 5000
+    note-client:
+      url: ${NOTE_CLIENT_URL}
+      scope: jakarta.inject.Singleton
+      connect-timeout: 5000
+      read-timeout: 5000
 
   http:
     port: ${PORT}

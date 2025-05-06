@@ -24,6 +24,7 @@ public final class GoogleAuthService
     @Inject
     @RestClient
     AuthClient authServiceClient;
+
     public Response processLogin(final String provider)
     {
         try
