@@ -13,8 +13,6 @@ import task.service.model.Task;
 import task.service.model.payloads.TaskPayload;
 import task.service.producers.ItemEventProducer;
 
-import java.util.Map;
-
 @ApplicationScoped
 public class TaskService
 {
@@ -67,7 +65,7 @@ public class TaskService
                 var taskNode = node.get("data");
                 var task = objectMapper.treeToValue(taskNode, Task.class);
 
-                itemEventProducer.sendItemCreatedEvent(task);
+                itemEventProducer.sendItemCreatedEvent(userUid, task);
                 LOGGER.debug("Sent create event to feedback service");
                 return Response.ok(task).build();
 
@@ -82,7 +80,7 @@ public class TaskService
         }
     }
 
-    public Response update(final String itemUid, final TaskPayload payload)
+    public Response update(final String userUid, final String itemUid, final TaskPayload payload)
     {
         LOGGER.debug("Sending update request to task client");
 
@@ -95,7 +93,7 @@ public class TaskService
                 var taskNode = node.get("data");
                 var task = objectMapper.treeToValue(taskNode, Task.class);
 
-                itemEventProducer.sendItemUpdatedEvent(task);
+                itemEventProducer.sendItemUpdatedEvent(userUid, task);
                 LOGGER.debug("Sent update event to feedback service");
                 return Response.ok(task).build();
 
@@ -110,7 +108,7 @@ public class TaskService
         }
     }
 
-    public Response delete(final String itemUid)
+    public Response delete(final String userUid, final String itemUid)
     {
         LOGGER.debug("Sending delete request to task client");
 
@@ -123,7 +121,7 @@ public class TaskService
                 var taskNode = node.get("data");
                 var msg = objectMapper.treeToValue(taskNode, String.class);
 
-                itemEventProducer.sendItemDeletedEvent(itemUid);
+                itemEventProducer.sendItemDeletedEvent(userUid, itemUid);
                 LOGGER.debug("Sent delete event to feedback service");
                 return Response.ok(msg).build();
 

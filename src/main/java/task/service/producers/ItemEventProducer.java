@@ -1,6 +1,7 @@
 package task.service.producers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.smallrye.reactive.messaging.kafka.KafkaRecord;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.eclipse.microprofile.reactive.messaging.Channel;
@@ -32,7 +33,7 @@ public final class ItemEventProducer
     @Inject
     ObjectMapper objectMapper;
 
-    public void sendItemCreatedEvent(final Task task)
+    public void sendItemCreatedEvent(final String key, final Task task)
     {
         try
         {
@@ -41,18 +42,18 @@ public final class ItemEventProducer
             var eventJson = objectMapper.writeValueAsString(event);
             LOGGER.debug("Sending item-created event");
 
-            itemCreatedEmitter.send(eventJson);
+            itemCreatedEmitter.send(KafkaRecord.of(key, eventJson));
 
             LOGGER.debug("Event item-created sent successfully");
 
         } catch (final Exception e)
         {
             LOGGER.error("Failed to send item created event", e);
-            throw new RuntimeException("Failed to send event", e); // todo: return response
+            throw new RuntimeException("Failed to send event", e);
         }
     }
 
-    public void sendItemUpdatedEvent(final Task task)
+    public void sendItemUpdatedEvent(final String key, final Task task)
     {
         try
         {
@@ -61,7 +62,7 @@ public final class ItemEventProducer
             var eventJson = objectMapper.writeValueAsString(event);
             LOGGER.debug("Sending item-updated event");
 
-            itemUpdatedEmitter.send(eventJson);
+            itemUpdatedEmitter.send(KafkaRecord.of(key, eventJson));
 
             LOGGER.debug("Event item-updated sent successfully");
 
@@ -72,7 +73,7 @@ public final class ItemEventProducer
         }
     }
 
-    public void sendItemDeletedEvent(final String itemUid)
+    public void sendItemDeletedEvent(final String key, final String itemUid)
     {
         try
         {
@@ -81,7 +82,7 @@ public final class ItemEventProducer
             var eventJson = objectMapper.writeValueAsString(event);
             LOGGER.debug("Sending item-deleted event");
 
-            itemDeletedEmitter.send(eventJson);
+            itemDeletedEmitter.send(KafkaRecord.of(key, eventJson));
 
             LOGGER.debug("Event item-deleted sent successfully");
 

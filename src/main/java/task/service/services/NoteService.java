@@ -10,15 +10,13 @@ import task.service.clients.NoteItemClient;
 import task.service.model.payloads.NotePayload;
 
 @ApplicationScoped
-public class NoteService
+public final class NoteService
 {
     private final static Logger LOGGER = LoggerFactory.getLogger(NoteService.class);
 
     @Inject
     @RestClient
     NoteItemClient noteItemClient;
-
-    // todo: get 1 note by uid
 
     public Response getAll(final String userUid)
     {

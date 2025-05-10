@@ -131,8 +131,12 @@ public final class TaskResource
     {
         try (var response = authService.validateAuth(authHeader))
         {
+            var res = response.readEntity(new GenericType<Map<String, String>>() {
+            });
+            var userUid = res.get("userUid");
+
             LOGGER.debug("Auth ok, calling task service update");
-            return taskService.update(itemUid, payload);
+            return taskService.update(userUid, itemUid, payload);
         } catch (final Exception e)
         {
             LOGGER.debug("Failed to create note", e);
@@ -149,8 +153,13 @@ public final class TaskResource
     {
         try (var response = authService.validateAuth(authHeader))
         {
+            var res = response.readEntity(new GenericType<Map<String, String>>() {
+            });
+            var userUid = res.get("userUid");
+
             LOGGER.debug("Auth ok, calling task service update");
-            return taskService.delete(itemUid);
+            return taskService.delete(userUid, itemUid);
+
         } catch (final Exception e)
         {
             LOGGER.debug("Failed to create note", e);

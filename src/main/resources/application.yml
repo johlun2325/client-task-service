@@ -52,16 +52,37 @@ mp:
         topic: "item-created"
         value:
           serializer: org.apache.kafka.common.serialization.StringSerializer
+        key:
+          deserializer: org.apache.kafka.common.serialization.StringDeserializer
       updated:
         connector: smallrye-kafka
         topic: "item-updated"
         value:
           serializer: org.apache.kafka.common.serialization.StringSerializer
+        key:
+          deserializer: org.apache.kafka.common.serialization.StringDeserializer
       deleted:
         connector: smallrye-kafka
         topic: "item-deleted"
         value:
           serializer: org.apache.kafka.common.serialization.StringSerializer
+        key:
+          deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    incoming:
+      completed:
+        connector: smallrye-kafka
+        topic: "feedback-completed"
+        value:
+          deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        key:
+          deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      priority:
+        connector: smallrye-kafka
+        topic: "feedback-priority"
+        value:
+          deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        key:
+          deserializer: org.apache.kafka.common.serialization.StringDeserializer
 
 url:
   redirect-url: ${CLIENT_REDIRECT_URL}

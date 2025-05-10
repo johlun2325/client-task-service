@@ -3,7 +3,7 @@ package task.service.model;
 import lombok.Data;
 
 @Data
-public class Note
+public final class Note
 {
     private String uid;
     private String userUid;
