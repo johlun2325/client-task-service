@@ -10,6 +10,12 @@ import task.service.model.payloads.TaskPayload;
 public interface TaskItemClient
 {
     @GET
+    @Path("/{itemUid}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    Response getTask(@PathParam("itemUid") final String itemUid);
+
+    @GET
     @Path("/all/{userUid}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)

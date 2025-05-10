@@ -52,6 +52,16 @@ mp:
         topic: "item-created"
         value:
           serializer: org.apache.kafka.common.serialization.StringSerializer
+      updated:
+        connector: smallrye-kafka
+        topic: "item-updated"
+        value:
+          serializer: org.apache.kafka.common.serialization.StringSerializer
+      deleted:
+        connector: smallrye-kafka
+        topic: "item-deleted"
+        value:
+          serializer: org.apache.kafka.common.serialization.StringSerializer
 
 url:
   redirect-url: ${CLIENT_REDIRECT_URL}
