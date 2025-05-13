@@ -7,6 +7,7 @@ quarkus:
       "task.service":
         level: DEBUG
 
+#Registered REST clients
   rest-client:
     auth-client:
       url: ${AUTH_CLIENT_URL}
@@ -24,6 +25,7 @@ quarkus:
       connect-timeout: 5000
       read-timeout: 5000
 
+#Service port and Cors
   http:
     port: ${PORT}
     cors:
@@ -35,15 +37,22 @@ quarkus:
       access-control-max-age: "24H"
       access-control-allow-credentials: true
 
+#Client application url
+url:
+  redirect-url: ${CLIENT_REDIRECT_URL}
+
+#Kafka broker address
 kafka:
   bootstrap:
     servers: ${LOCAL_BROKER}
 
+#Log level for Kafka
 logging:
   level:
     org.apache.kafka: INFO
     org.springframework.kafka: INFO
 
+#Kafka channels and topics
 mp:
   messaging:
     outgoing:
@@ -83,6 +92,3 @@ mp:
           deserializer: org.apache.kafka.common.serialization.StringDeserializer
         key:
           deserializer: org.apache.kafka.common.serialization.StringDeserializer
-
-url:
-  redirect-url: ${CLIENT_REDIRECT_URL}

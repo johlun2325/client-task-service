@@ -36,7 +36,7 @@ public final class GoogleAuthService
 
             return Response.ok(Map.of("url", url)).build();
 
-        } catch (Exception e)
+        } catch (final Exception e)
         {
             LOGGER.error("Login request failed", e);
 

@@ -92,9 +92,9 @@ public class NoteResource
 
         try (var response = authService.validateAuth(authHeader))
         {
-
             LOGGER.debug("Auth ok, calling note service update");
             return noteService.update(itemUid, payload);
+
         } catch (final Exception e)
         {
             LOGGER.debug("Failed to update note", e);
@@ -113,9 +113,9 @@ public class NoteResource
 
         try (var response = authService.validateAuth(authHeader))
         {
-
             LOGGER.debug("Auth ok, calling note service delete");
             return noteService.delete(itemUid);
+
         } catch (final Exception e)
         {
             LOGGER.debug("Failed to delete note", e);

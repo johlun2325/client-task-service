@@ -69,7 +69,7 @@ public final class ItemEventProducer
         } catch (final Exception e)
         {
             LOGGER.error("Failed to send item created event", e);
-            throw new RuntimeException("Failed to send event", e); // todo: return response
+            throw new RuntimeException("Failed to send event", e);
         }
     }
 
@@ -89,7 +89,7 @@ public final class ItemEventProducer
         } catch (final Exception e)
         {
             LOGGER.error("Failed to send item created event", e);
-            throw new RuntimeException("Failed to send event", e); // todo: return response
+            throw new RuntimeException("Failed to send event", e);
         }
     }
 

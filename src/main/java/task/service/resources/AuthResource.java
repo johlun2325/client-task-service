@@ -22,7 +22,7 @@ public final class AuthResource
     @Path("/login")
     public Response login(@QueryParam("provider") final String provider)
     {
-        LOGGER.debug("Login request received: " + provider);
+        LOGGER.debug("Login request received: {}", provider);
 
         return authService.processLogin(provider);
     }
