@@ -2,7 +2,7 @@ FROM gradle:8.7.0-jdk17-alpine AS build
 WORKDIR /build
 
 COPY . .
-
+RUN chmod +x ./gradlew
 RUN ./gradlew quarkusBuild --no-daemon
 
 FROM eclipse-temurin:17-alpine AS runtime
