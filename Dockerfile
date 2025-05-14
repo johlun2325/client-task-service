@@ -1,11 +1,11 @@
-FROM gradle:8.7.0-jdk21 AS build
+FROM gradle:8.7.0-jdk17-alpine AS build
 WORKDIR /build
 
 COPY . .
 
 RUN ./gradlew quarkusBuild --no-daemon
 
-FROM eclipse-temurin:21-jre AS runtime
+FROM eclipse-temurin:17-alpine AS runtime
 WORKDIR /app
 
 COPY --from=build /build/build/quarkus-app/lib/ /app/lib/
