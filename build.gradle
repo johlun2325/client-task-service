@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id 'io.quarkus'
-    id 'com.diffplug.spotless' version '6.25.0' // Use latest version
+    id 'com.diffplug.spotless' version '6.25.0'
 }
 
 spotless {
