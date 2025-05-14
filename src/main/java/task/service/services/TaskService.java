@@ -14,7 +14,7 @@ import task.service.model.payloads.TaskPayload;
 import task.service.producers.ItemEventProducer;
 
 @ApplicationScoped
-public class TaskService
+public final class TaskService
 {
     private final static Logger LOGGER = LoggerFactory.getLogger(TaskService.class);
 

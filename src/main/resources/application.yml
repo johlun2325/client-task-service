@@ -63,6 +63,7 @@ mp:
           serializer: org.apache.kafka.common.serialization.StringSerializer
         key:
           deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        partitioner: org.apache.kafka.clients.producer.internals.DefaultPartitioner
       updated:
         connector: smallrye-kafka
         topic: "item-updated"
@@ -70,6 +71,7 @@ mp:
           serializer: org.apache.kafka.common.serialization.StringSerializer
         key:
           deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        partitioner: org.apache.kafka.clients.producer.internals.DefaultPartitioner
       deleted:
         connector: smallrye-kafka
         topic: "item-deleted"
@@ -77,6 +79,7 @@ mp:
           serializer: org.apache.kafka.common.serialization.StringSerializer
         key:
           deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        partitioner: org.apache.kafka.clients.producer.internals.DefaultPartitioner
     incoming:
       completed:
         connector: smallrye-kafka

@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Data
 @RequiredArgsConstructor
-public class NotePayload
+public final class NotePayload
 {
     public NotePayload(final String title, final String text)
     {

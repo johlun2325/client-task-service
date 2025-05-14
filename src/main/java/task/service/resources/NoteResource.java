@@ -16,7 +16,7 @@ import task.service.services.NoteService;
 import java.util.Map;
 
 @Path("/note")
-public class NoteResource
+public final class NoteResource
 {
     private final static Logger LOGGER = LoggerFactory.getLogger(NoteResource.class);
 

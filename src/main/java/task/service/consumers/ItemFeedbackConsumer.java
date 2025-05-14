@@ -6,6 +6,7 @@ import jakarta.inject.Inject;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import task.service.model.messages.FeedbackEvent;
 import task.service.services.FeedbackService;
 
 @ApplicationScoped
@@ -23,13 +24,25 @@ public class ItemFeedbackConsumer
     public void onFeedbackCompleted(String json)
     {
         LOGGER.info("Received completed feedback: {}", json);
-        // todo: send feedback to client
+        handleFeedback(json);
     }
 
     @Incoming("priority")
     public void onFeedbackPriority(String json)
     {
         LOGGER.info("Received priority feedback: {}", json);
-        // todo: send feedback to client
+        handleFeedback(json);
+    }
+
+    private void handleFeedback(String json)
+    {
+        try
+        {
+            var feedback = objectMapper.readValue(json, FeedbackEvent.class);
+            feedbackService.saveFeedback(feedback.getUserUid(), feedback);
+        } catch (Exception e)
+        {
+            LOGGER.error("Failed to process feedback", e);
+        }
     }
 }
