@@ -83,15 +83,14 @@ public final class GoogleAuthService
     {
         try (var response = authServiceClient.validateAuth(token))
         {
+            LOGGER.debug("Token validation successful");
+            return Response.ok().build();
 
-            if (response.getStatus() == Response.Status.OK.getStatusCode())
-            {
-                LOGGER.debug("Token validation successful");
-                return Response.ok().build();
-            }
+        } catch (final Exception e)
+        {
+            LOGGER.debug("Token validation failed");
+            return Response.status(Response.Status.UNAUTHORIZED).build();
         }
-        LOGGER.debug("Token validation failed");
-        return Response.status(Response.Status.UNAUTHORIZED).build();
     }
 
     public Response processLogout(final String token)
