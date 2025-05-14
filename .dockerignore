@@ -1,4 +1,11 @@
 *
+
+!gradlew
+!gradle/
+!build.gradle
+!settings.gradle
+!src/
+
 !build/*-runner
 !build/*-runner.jar
 !build/lib/*
