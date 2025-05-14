@@ -4,6 +4,7 @@
 !gradle/
 !build.gradle
 !settings.gradle
+!gradle.properties
 !src/
 
 !build/*-runner
