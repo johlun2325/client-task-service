@@ -98,7 +98,7 @@ public final class ItemEventProducer
         var event = new ItemEvent();
         event.setEvent(eventType);
         event.setItemUid(task.getUid());
-        event.setUserUid(task.getUserUid()); // todo: this is subject number not uid
+        event.setUserUid(task.getUserUid());
         event.setType(task.getType());
 
         var content = new HashMap<String, Object>();

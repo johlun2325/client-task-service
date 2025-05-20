@@ -30,12 +30,12 @@ quarkus:
     port: ${PORT}
     cors:
       ~: true
-      origins: "http://localhost:5173"
-      methods: "GET,PUT,POST,DELETE,OPTIONS"
-      headers: "accept,authorization,content-type,x-requested-with"
-      exposed-headers: "Content-Disposition"
-      access-control-max-age: "24H"
-      access-control-allow-credentials: true
+      origins: ${CORS_ORIGINS:http://localhost:5173}
+      methods: ${CORS_METHODS:GET,PUT,POST,DELETE,OPTIONS}
+      headers: ${CORS_HEADERS:accept,authorization,content-type,x-requested-with}
+      exposed-headers: ${CORS_EXPOSED_HEADERS:Content-Disposition}
+      access-control-max-age: ${CORS_ACCESS_CONTROL_MAX_AGE:86400}
+      access-control-allow-credentials: ${CORS_ACCESS_CONTROL_ALLOW_CREDENTIALS:true}
 
 #Client application url
 url:
